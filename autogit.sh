@@ -1,4 +1,4 @@
 git add -A
-git commit -m "Folders translation & code -> add"
+git commit -m "code: regular class -> add"
 git push
 git status

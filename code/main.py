@@ -11,5 +11,5 @@ class DataClassExample:
 
 level = DataClassExample('E', 'wizard', 20000609)
 
-print(level)
+print("\n", level)
 print("\nRank: ", level.rank, "\nType: ", level.type, "\nData: ", level.data)
