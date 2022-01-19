@@ -155,3 +155,37 @@ True
 >>> queen_of_hearts == ('Q', 'Hearts')
 True
 ```
+
+### Embora isso possa parecer uma coisa boa, essa falta de conhecimento sobre seu próprio tipo pode levar a bugs sutis e difíceis de encontrar, especialmente porque também comparará duas classes de `namedtuple` diferentes:
+
+```Python Console
+>>> Person = namedtuple('Person', ['first_initial', 'last_name']
+>>> ace_of_spades = NamedTupleCard('A', 'Spades')
+>>> ace_of_spades == Person('A', 'Spades')
+True
+```
+
+### The `namedtuple` also comes with some restrictions. For instance, it is hard to add default values to some of the fields in a `namedtuple`. A `namedtuple` is also by nature immutable. That is, the value of a `namedtuple` can never change. In some applications, this is an awesome feature, but in other settings, it would be nice to have more flexibility:
+
+```Python Console
+>>> card = NamedTupleCard('7', 'Diamonds')
+>>> card.rank = '9'
+AttributeError: can't set attribute
+```
+
+### As classes de dados não substituirão todos os usos de `namedtuple`. Por exemplo, se você precisa que sua estrutura de dados se comporte como uma tupla, uma tupla nomeada é uma ótima alternativa!
+
+### Outra alternativa, e uma das [inspirações para classes de dados](https://mail.python.org/pipermail/python-dev/2017-December/151034.html), é o [projeto attrs](http://www.attrs.org/). Com o `attrs` instalado (`pip install attrs`), você pode escrever uma classe de cartão da seguinte forma:
+
+```Python
+import attr
+
+@attr.s
+class AttrsCard:
+    rank = attr.ib()
+    suit = attr.ib()
+```
+
+### Isso pode ser usado exatamente da mesma maneira que os exemplos `DataClassCard` e `NamedTupleCard` anteriores. O projeto `attrs` é ótimo e suporta alguns recursos que as classes de dados não suportam, incluindo conversores e validadores. Além disso, o `attrs` existe há algum tempo e é suportado no Python 2.7, bem como no Python 3.4 e superior. Contudo, como o `attrs` não faz parte da biblioteca padrão, ele adiciona uma [dependency](https://realpython.com/courses/managing-python-dependencies/) externa aos seus projetos. Por meio de classes de dados, funcionalidades semelhantes estarão disponíveis em todos os lugares.
+
+### Além de `tuple, dict, namedtuple` e `attrs`, existem [muitos outros projetos semelhantes](https://www.python.org/dev/peps/pep-0557/#rationale), incluindo [`type.NamedTuple`](https://docs.python.org/library/typing.html#typing.NamedTuple), [`namedlist`](https://pypi.org/project/namedlist/), [`attrdict`](https://pypi.org/project/attrdict/), [`plumber`](https://pypi.org/project/plumber/) e [`fields`](https://pypi.org/project/fields/). Embora as classes de dados sejam uma ótima nova alternativa, ainda há casos de uso em que uma das variantes mais antigas se encaixa melhor. Por exemplo, se você precisar de compatibilidade com uma API específica esperando tuplas ou precisar de uma funcionalidade não suportada em classes de dados.

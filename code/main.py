@@ -1,3 +1,4 @@
+import attr
 from collections import namedtuple
 from dataclasses import dataclass
 from datetime import date
@@ -33,3 +34,9 @@ class RegularCard:
 
 
 NamedTupleCard = namedtuple('NamedTupleCard', ['rank', 'suit'])
+
+
+@attr.s
+class AttrsCard:
+    rank = attr.ib()
+    suit = attr.ib()
