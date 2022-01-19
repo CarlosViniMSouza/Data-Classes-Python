@@ -100,3 +100,58 @@ class RegularCard
 ```
 
 ### Em breve, nos aprofundaremos nesses recursos das classes de dados. No entanto, você pode estar pensando que já viu algo assim antes.
+
+## Alternativas às classes de dados
+
+### Para estruturas de dados simples, você provavelmente já usou uma tupla ou um ditado. Você pode representar a carta dama de copas de uma das seguintes maneiras:
+
+```Python Console
+>>> queen_of_hearts_tuple = ('Q', 'Hearts')
+>>> queen_of_hearts_dict = {'rank': 'Q', 'suit': 'Hearts'}
+```
+
+### Funciona. No entanto, isso coloca muita responsabilidade em você como programador:
+
+```
+  ° Você precisa lembrar que a variável queen_of_hearts_... representa uma carta.
+
+  ° Para a versão de tupla, você precisa lembrar a ordem dos atributos. Escrever ('Spades', 'A') atrapalhará seu programa, mas provavelmente não fornecerá uma mensagem de erro facilmente compreensível.
+
+  ° Se você usar a versão dict, deverá certificar-se de que os nomes dos atributos sejam consistentes. Por exemplo, {'value': 'A', 'suit': 'Spades'} não funcionará como esperado.
+```
+
+### Além disso, usar essas estruturas não é ideal:
+
+```Python Console
+>>> queen_of_hearts_tuple[0]  # No named access
+'Q'
+>>> queen_of_hearts_dict['suit']  # Would be nicer with .suit
+'Hearts'
+```
+
+### Uma alternativa melhor é a [`namedtuple`](https://dbader.org/blog/writing-clean-python-with-namedtuples). Ele tem sido usado há muito tempo para criar pequenas estruturas de dados legíveis. Na verdade, podemos recriar o exemplo de classe de dados acima usando um `namedtuple` como este:
+
+```Python
+from collections import namedtuple
+
+NamedTupleCard = namedtuple('NamedTupleCard', ['rank', 'suit'])
+```
+
+### Esta definição de `NamedTupleCard` fornecerá exatamente a mesma saída que nosso exemplo de `DataClassCard` deu:
+
+```Python Console
+>>> queen_of_hearts = NamedTupleCard('Q', 'Hearts')
+>>> queen_of_hearts.rank
+'Q'
+>>> queen_of_hearts
+NamedTupleCard(rank='Q', suit='Hearts')
+>>> queen_of_hearts == NamedTupleCard('Q', 'Hearts')
+True
+```
+
+### Então, por que se preocupar com classes de dados? Em primeiro lugar, as classes de dados vêm com muito mais recursos do que você viu até agora. Ao mesmo tempo, a `namedtuple` possui alguns outros recursos que não são necessariamente desejáveis. Por design, uma `namedtuple` é uma tupla regular. Isso pode ser visto em comparações, por exemplo:
+
+```Python Console
+>>> queen_of_hearts == ('Q', 'Hearts')
+True
+```

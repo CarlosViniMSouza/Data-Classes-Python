@@ -1,4 +1,4 @@
 git add -A
-git commit -m "Next Topic: Alternatives to Data Classes"
+git commit -m "Alternatives to Data Classes -> to be continued"
 git push
 git status
