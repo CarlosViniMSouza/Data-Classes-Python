@@ -1,8 +1,8 @@
-from dataclasses import make_dataclass
-import attr
 from collections import namedtuple
 from dataclasses import dataclass
+from dataclasses import make_dataclass
 from datetime import date
+import attr
 
 
 @dataclass
@@ -36,18 +36,25 @@ class RegularCard:
 
 NamedTupleCard = namedtuple('NamedTupleCard', ['rank', 'suit'])
 
-
+"""
 @attr.s
 class AttrsCard:
     rank = attr.ib()
     suit = attr.ib()
+"""
 
 
 @dataclass
 class Position:
     name: str
-    lon: float
-    lat: float
+    lon: float = 0.0
+    lat: float = 0.0
 
 
 Position = make_dataclass('Position', ['name', 'lat', 'lon'])
+
+# Error: print(Position('Null Island'))
+
+# Error: print(Position('Greenwich', lat=51.8))
+
+print(Position('Vancouver', -123.1, 49.3))  # sucess!

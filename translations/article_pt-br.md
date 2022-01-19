@@ -227,3 +227,30 @@ Position = make_dataclass('Position', ['name', 'lat', 'lon'])
 ```
 
 ### Uma classe de dados é uma classe regular do Python. A única coisa que o diferencia é que ele tem [métodos básicos de modelo de dados](https://docs.python.org/reference/datamodel.html#basic-customization) como `.__init__(), .__repr__()` e `.__eq__()` implementados para você.
+
+## Valores padrão
+
+### É fácil adicionar valores padrão aos campos de sua classe de dados:
+
+```Python
+from dataclasses import dataclass
+
+@dataclass
+class Position:
+    name: str
+    lon: float = 0.0
+    lat: float = 0.0
+```
+
+### Isso funciona exatamente como se você tivesse especificado os valores padrão na definição do método `.__init__()` de uma classe regular:
+
+```Python Console
+>>> Position('Null Island')
+Position(name='Null Island', lon=0.0, lat=0.0)
+>>> Position('Greenwich', lat=51.8)
+Position(name='Greenwich', lon=0.0, lat=51.8)
+>>> Position('Vancouver', -123.1, 49.3)
+Position(name='Vancouver', lon=-123.1, lat=49.3)
+```
+
+### [Mais tarde](https://realpython.com/python-data-classes/#advanced-default-values), você aprenderá sobre `default_factory`, que oferece uma maneira de fornecer valores padrão mais complicados.
