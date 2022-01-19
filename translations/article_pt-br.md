@@ -189,3 +189,41 @@ class AttrsCard:
 ### Isso pode ser usado exatamente da mesma maneira que os exemplos `DataClassCard` e `NamedTupleCard` anteriores. O projeto `attrs` é ótimo e suporta alguns recursos que as classes de dados não suportam, incluindo conversores e validadores. Além disso, o `attrs` existe há algum tempo e é suportado no Python 2.7, bem como no Python 3.4 e superior. Contudo, como o `attrs` não faz parte da biblioteca padrão, ele adiciona uma [dependency](https://realpython.com/courses/managing-python-dependencies/) externa aos seus projetos. Por meio de classes de dados, funcionalidades semelhantes estarão disponíveis em todos os lugares.
 
 ### Além de `tuple, dict, namedtuple` e `attrs`, existem [muitos outros projetos semelhantes](https://www.python.org/dev/peps/pep-0557/#rationale), incluindo [`type.NamedTuple`](https://docs.python.org/library/typing.html#typing.NamedTuple), [`namedlist`](https://pypi.org/project/namedlist/), [`attrdict`](https://pypi.org/project/attrdict/), [`plumber`](https://pypi.org/project/plumber/) e [`fields`](https://pypi.org/project/fields/). Embora as classes de dados sejam uma ótima nova alternativa, ainda há casos de uso em que uma das variantes mais antigas se encaixa melhor. Por exemplo, se você precisar de compatibilidade com uma API específica esperando tuplas ou precisar de uma funcionalidade não suportada em classes de dados.
+
+## Classes de dados básicos
+
+### Voltemos às classes de dados. Como exemplo, criaremos uma classe `Position` que representará as posições geográficas com um nome, bem como a latitude e a longitude:
+
+```Python
+from dataclasses import dataclass
+
+@dataclass
+class Position:
+    name: str
+    lon: float
+    lat: float
+```
+
+### O que torna isso uma classe de dados é o [decorador @dataclass](https://realpython.com/primer-on-python-decorators/) logo acima da definição da classe. Abaixo da `classe Position`: linha, você simplesmente lista os campos que deseja em sua classe de dados. A notação : usada para os campos está usando um novo recurso no Python 3.6 chamado [anotações de variáveis](https://www.python.org/dev/peps/pep-0526/). [Em breve](https://realpython.com/python-data-classes/#type-hints) falaremos mais sobre essa notação e por que especificamos tipos de dados como str e float.
+
+### Essas poucas linhas de código são tudo que você precisa. A nova classe está pronta para uso:
+
+```Python
+>>> pos = Position('Oslo', 10.8, 59.9)
+>>> print(pos)
+Position(name='Oslo', lon=10.8, lat=59.9)
+>>> pos.lat
+59.9
+>>> print(f'{pos.name} is at {pos.lat}°N, {pos.lon}°E')
+Oslo is at 59.9°N, 10.8°E
+```
+
+### Você também pode criar classes de dados da mesma forma que as tuplas nomeadas são criadas. O seguinte é (quase) equivalente à definição de `Position` acima:
+
+```Python
+from dataclasses import make_dataclass
+
+Position = make_dataclass('Position', ['name', 'lat', 'lon'])
+```
+
+### Uma classe de dados é uma classe regular do Python. A única coisa que o diferencia é que ele tem [métodos básicos de modelo de dados](https://docs.python.org/reference/datamodel.html#basic-customization) como `.__init__(), .__repr__()` e `.__eq__()` implementados para você.

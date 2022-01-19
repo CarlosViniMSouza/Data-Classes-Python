@@ -1,4 +1,4 @@
 git add -A
-git commit -m "Alternatives to Data Classes -> finished | Next Topic: Basic Data Classes"
+git commit -m "Next Topic: Default Values"
 git push
 git status

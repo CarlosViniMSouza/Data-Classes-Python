@@ -1,3 +1,4 @@
+from dataclasses import make_dataclass
 import attr
 from collections import namedtuple
 from dataclasses import dataclass
@@ -40,3 +41,13 @@ NamedTupleCard = namedtuple('NamedTupleCard', ['rank', 'suit'])
 class AttrsCard:
     rank = attr.ib()
     suit = attr.ib()
+
+
+@dataclass
+class Position:
+    name: str
+    lon: float
+    lat: float
+
+
+Position = make_dataclass('Position', ['name', 'lat', 'lon'])
