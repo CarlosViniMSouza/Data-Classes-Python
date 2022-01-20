@@ -254,3 +254,34 @@ Position(name='Vancouver', lon=-123.1, lat=49.3)
 ```
 
 ### [Mais tarde](https://realpython.com/python-data-classes/#advanced-default-values), você aprenderá sobre `default_factory`, que oferece uma maneira de fornecer valores padrão mais complicados.
+
+## Dicas de tipo
+
+### Até agora, não fizemos um grande alarido sobre o fato de que as classes de dados suportam a [digitação](https://realpython.com/python-type-checking/) pronta para uso. Você provavelmente notou que definimos os campos com uma dica de tipo: `name: str` diz que o `name` deve ser uma [string de texto](https://realpython.com/python-strings/) (tipo `str`).
+
+### Na verdade, adicionar algum tipo de dica de tipo é obrigatório ao definir os campos em sua classe de dados. Sem uma dica de tipo, o campo não fará parte da classe de dados. No entanto, se você não quiser adicionar tipos explícitos à sua classe de dados, use `digitação.Any`:
+
+```python
+from dataclasses import dataclass
+from typing import Any
+
+@dataclass
+class WithoutExplicitTypes:
+    name: Any
+    value: Any = 42
+```
+
+### Embora você precise adicionar dicas de tipo de alguma forma ao usar classes de dados, esses tipos não são impostos em tempo de execução. O código a seguir é executado sem problemas:
+
+```Python Console
+>>> Position(3.14, 'pi day', 2018)
+Position(name=3.14, lon='pi day', lat=2018)
+```
+
+### É assim que a digitação em Python geralmente funciona: [Python é e sempre será uma linguagem tipada dinamicamente](https://www.python.org/dev/peps/pep-0484/#non-goals). Para realmente detectar erros de tipo, verificadores de tipo como o [Mypy](http://mypy-lang.org/) podem ser executados em seu código-fonte.
+
+```
+NOTE: para instalar o Mypy, use o comando: 
+
+$ python3 -m pip install mypy
+```

@@ -1,8 +1,9 @@
+import attr
 from collections import namedtuple
 from dataclasses import dataclass
 from dataclasses import make_dataclass
 from datetime import date
-import attr
+from typing import Any
 
 
 @dataclass
@@ -58,3 +59,9 @@ Position = make_dataclass('Position', ['name', 'lat', 'lon'])
 # Error: print(Position('Greenwich', lat=51.8))
 
 print(Position('Vancouver', -123.1, 49.3))  # sucess!
+
+
+@dataclass
+class WithoutExplicitTypes:
+    name: Any
+    value: Any = 42

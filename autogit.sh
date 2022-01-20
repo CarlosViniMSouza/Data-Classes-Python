@@ -1,4 +1,4 @@
 git add -A
-git commit -m "Next Topic: Type Hints"
+git commit -m "Next Topic: Adding Methods"
 git push
 git status
