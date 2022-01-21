@@ -41,7 +41,7 @@ class DataClassCard:
 
 ### Uma classe de dados vem com funcionalidades básicas já implementadas. Por exemplo, você pode instanciar, imprimir e comparar instâncias de classes de dados imediatamente:
 
-```Python
+```Python Console
 >>> queen_of_hearts = DataClassCard('Q', 'Hearts')
 >>> queen_of_hearts.rank
 'Q'
@@ -75,7 +75,7 @@ False
 ### Parece que as classes de dados estão nos ajudando nos bastidores. Por padrão, as classes de dados implementam um [método .__repr__()](https://realpython.com/operator-function-overloading/) para fornecer uma boa representação de string e um método .__eq__() que pode fazer comparações básicas de objetos. Para a classe RegularCard imitar a classe de dados acima, você precisa adicionar estes métodos também:
 
 ```Python
-class RegularCard
+class RegularCard:
     def __init__(self, rank, suit):
         self.rank = rank
         self.suit = suit
@@ -208,7 +208,7 @@ class Position:
 
 ### Essas poucas linhas de código são tudo que você precisa. A nova classe está pronta para uso:
 
-```Python
+```Python Console
 >>> pos = Position('Oslo', 10.8, 59.9)
 >>> print(pos)
 Position(name='Oslo', lon=10.8, lat=59.9)
@@ -517,7 +517,7 @@ class Capital(Position):
 ### Este código irá travar imediatamente com um `TypeError` reclamando que "o argumento não padrão 'país' segue o argumento padrão". O problema é que nosso novo campo `country` não possui valor padrão, enquanto os campos lon e lat possuem valores padrão. A classe de dados tentará escrever um método `.__init__()` com a seguinte assinatura:
 
 ```python
-def __init__(name: str, lon: float = 0.0, lat: float = 0.0, country: str):
+def __init__(name: str, lon: float = 0.0, lat: float = 0.0):
     ...
 ```
 

@@ -1,4 +1,4 @@
 git add -A
-git commit -m "Conclusion & Further Reading -> add | Finished Project"
+git commit -m "Errors in code on file article_pt-br.md -> fixed"
 git push
 git status
