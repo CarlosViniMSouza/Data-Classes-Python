@@ -417,3 +417,58 @@ class Position:
 >>> lat_unit
 'degrees'
 ```
+
+## Classes de dados imutáveis
+
+### Uma das características que definem o `namedtuple` que você viu anteriormente é que ele é [imutável](https://medium.com/@meghamohan/mutable-and-immutable-side-of-python-c2145cf72747). Ou seja, o valor de seus campos pode nunca mudar. Para muitos tipos de classes de dados, esta é uma ótima ideia! Para tornar uma classe de dados imutável, defina `frozen=True` ao criá-la. Por exemplo, o seguinte é uma versão imutável da classe `Position` que [você viu anteriormente](https://realpython.com/python-data-classes/#basic-data-classes):
+
+```python
+from dataclasses import dataclass
+
+@dataclass(frozen=True)
+class Position:
+    name: str
+    lon: float = 0.0
+    lat: float = 0.0
+```
+
+### Em uma classe de dados congelados, você não pode atribuir valores aos campos após a criação:
+
+```Python Console
+>>> pos = Position('Oslo', 10.8, 59.9)
+>>> pos.name
+'Oslo'
+>>> pos.name = 'Stockholm'
+dataclasses.FrozenInstanceError: cannot assign to field 'name'
+```
+
+### Esteja ciente de que, se sua classe de dados contiver campos mutáveis, eles ainda poderão ser alterados. Isso é verdade para todas as estruturas de dados aninhadas em Python (veja [este vídeo para mais informações](https://www.youtube.com/watch?v=p9ppfvHv2Us)):
+
+```python
+from dataclasses import dataclass
+from typing import List
+
+@dataclass(frozen=True)
+class ImmutableCard:
+    rank: str
+    suit: str
+
+@dataclass(frozen=True)
+class ImmutableDeck:
+    cards: List[ImmutableCard]
+```
+
+### Mesmo que tanto `ImmutableCard` quanto `ImmutableDeck` sejam imutáveis, a lista de `cartas` não é. Portanto, você ainda pode alterar as cartas do baralho:
+
+```Python Console
+>>> queen_of_hearts = ImmutableCard('Q', '♡')
+>>> ace_of_spades = ImmutableCard('A', '♠')
+>>> deck = ImmutableDeck([queen_of_hearts, ace_of_spades])
+>>> deck
+ImmutableDeck(cards=[ImmutableCard(rank='Q', suit='♡'), ImmutableCard(rank='A', suit='♠')])
+>>> deck.cards[0] = ImmutableCard('7', '♢')
+>>> deck
+ImmutableDeck(cards=[ImmutableCard(rank='7', suit='♢'), ImmutableCard(rank='A', suit='♠')])
+```
+
+### Para evitar isso, certifique-se de que todos os campos de uma classe de dados imutáveis usem tipos imutáveis (mas lembre-se de que os tipos não são impostos em tempo de execução). O `ImmutableDeck` deve ser implementado usando uma tupla em vez de uma lista.
