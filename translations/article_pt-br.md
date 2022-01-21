@@ -378,3 +378,42 @@ from typing import List
 class Deck:  # Will NOT work
     cards: List[PlayingCard] = make_french_deck()
 ```
+
+### O especificador `field()` é usado para personalizar cada campo de uma classe de dados individualmente. Você verá alguns outros exemplos mais tarde. Para referência, estes são os parâmetros que `field()` suporta:
+
+```
+° default: valor padrão do campo
+° default_factory: Função que retorna o valor inicial do campo
+° init: Usar campo no método .__init__()? (O padrão é Verdadeiro.)
+° repr: Usar campo em repr do objeto? (O padrão é Verdadeiro.)
+° compare: Incluir o campo nas comparações? (O padrão é Verdadeiro.)
+° hash: Incluir o campo ao calcular hash()? (O padrão é usar o mesmo que para comparar.)
+° metadatas: Um mapeamento com informações sobre o campo
+```
+
+### No exemplo `Position`, você viu como adicionar valores padrão simples escrevendo `lat: float = 0.0`. No entanto, se você também deseja personalizar o campo, por exemplo, para ocultá-lo no `repr`, você precisa usar o parâmetro `default`: `lat: float = field(default=0.0, repr=False)`. Você não pode especificar `default` e `default_factory`.
+
+### O parâmetro de `metadatas` não é usado pelas próprias classes de dados, mas está disponível para você (ou pacotes de terceiros) anexar informações aos campos. No exemplo `Position`, você pode, por exemplo, especificar que a latitude e a longitude devem ser dadas em graus:
+
+```Python
+from dataclasses import dataclass, field
+
+@dataclass
+class Position:
+    name: str
+    lon: float = field(default=0.0, metadata={'unit': 'degrees'})
+    lat: float = field(default=0.0, metadata={'unit': 'degrees'})
+```
+
+### Os metadados (e outras informações sobre um campo) podem ser recuperados usando a função `fields()` (observe o plural `s`):
+
+```Python Console
+>>> from dataclasses import fields
+>>> fields(Position)
+(Field(name='name',type=<class 'str'>,...,metadata={}),
+ Field(name='lon',type=<class 'float'>,...,metadata={'unit': 'degrees'}),
+ Field(name='lat',type=<class 'float'>,...,metadata={'unit': 'degrees'}))
+>>> lat_unit = fields(Position)[2].metadata['unit']
+>>> lat_unit
+'degrees'
+```

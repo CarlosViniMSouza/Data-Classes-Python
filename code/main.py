@@ -1,5 +1,6 @@
 from collections import namedtuple
-from dataclasses import dataclass
+from dataclasses import dataclass, field
+from dataclasses import fields
 from dataclasses import make_dataclass
 from datetime import date
 from typing import Any
@@ -57,3 +58,23 @@ print(Position('Vancouver', -123.1, 49.3))  # sucess!
 class WithoutExplicitTypes:
     name: Any
     value: Any = 42
+
+
+@dataclass
+class Position:
+    name: str
+    lon: float = field(default=0.0, metadata={'unit': 'degrees'})
+    lat: float = field(default=0.0, metadata={'unit': 'degrees'})
+
+
+print(fields(Position))
+
+"""
+Output:
+
+lt_factory=<dataclasses._MISSING_TYPE object at 0x000002628E5AAB30>,init=True,repr=True,hash=None,compare=True,metadata=mappingproxy({}),kw_only=False,_field_type=_FIELD), Field(name='lon',type=<class 'float'>,default=0.0,default_factory=<dataclasses._MISSING_TYPE object at 0x000002628E5AAB30>,init=True,repr=True,hash=None,compare=True,metadata=mappingproxy({'unit': 'degrees'}),kw_only=False,_field_type=_FIELD), Field(name='lat',type=<class 'float'>,default=0.0,default_factory=<dataclasses._MISSING_TYPE object at 0x000002628E5AAB30>,init=True,repr=True,hash=None,compare=True,metadata=mappingproxy({'unit': 'degrees'}),kw_only=False,_field_type=_FIELD))
+"""
+
+lat_unit = fields(Position)[2].metadata['unit']
+print(lat_unit)
+# Output: 'degrees'
