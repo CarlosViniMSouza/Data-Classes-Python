@@ -351,3 +351,30 @@ class Deck:
 Deck(cards=[PlayingCard(rank='Q', suit='Hearts'),
             PlayingCard(rank='A', suit='Spades')])
 ```
+
+## Valores padrão avançados
+
+### Digamos que você queira dar um valor padrão ao Deck. Por exemplo, seria conveniente se `Deck()` criasse um [baralho regular (francês)](https://en.wikipedia.org/wiki/French_playing_cards) de 52 cartas de baralho. Primeiro, especifique as diferentes graduações e naipes. Em seguida, adicione uma função `make_french_deck()` que cria uma [lista](https://realpython.com/python-lists-tuples/) de instâncias de `PlayingCard`:
+
+```Python
+RANKS = '2 3 4 5 6 7 8 9 10 J Q K A'.split()
+SUITS = '♣ ♢ ♡ ♠'.split()
+
+def make_french_deck():
+    return [PlayingCard(r, s) for s in SUITS for r in RANKS]
+```
+
+### Por diversão, os quatro naipes diferentes são especificados usando seus [símbolos Unicode](https://en.wikipedia.org/wiki/Playing_cards_in_Unicode).
+
+### Para simplificar as comparações de cartas mais tarde, as fileiras e naipes também são listados em sua ordem usual.
+
+### Em teoria, agora você pode usar esta função para especificar um valor padrão para Deck.cards:
+
+```Python
+from dataclasses import dataclass
+from typing import List
+
+@dataclass
+class Deck:  # Will NOT work
+    cards: List[PlayingCard] = make_french_deck()
+```
