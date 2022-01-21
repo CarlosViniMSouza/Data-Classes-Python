@@ -520,3 +520,29 @@ class Capital(Position):
 def __init__(name: str, lon: float = 0.0, lat: float = 0.0, country: str):
     ...
 ```
+
+### No entanto, isso não é Python válido. [Se um parâmetro tiver um valor padrão, todos os parâmetros a seguir também deverão ter um valor padrão](https://docs.python.org/reference/compound_stmts.html#function-definitions). Em outras palavras, se um campo em uma classe base tiver um valor padrão, todos os novos campos adicionados em uma subclasse também deverão ter valores padrão.
+
+### Outra coisa a ser observada é como os campos são ordenados em uma subclasse. Começando com a classe base, os campos são ordenados na ordem em que são definidos pela primeira vez. Se um campo é redefinido em uma subclasse, sua ordem não muda. Por exemplo, se você definir `Position` e `Capital` da seguinte forma:
+
+```python
+from dataclasses import dataclass
+
+@dataclass
+class Position:
+    name: str
+    lon: float = 0.0
+    lat: float = 0.0
+
+@dataclass
+class Capital(Position):
+    country: str = 'Unknown'
+    lat: float = 40.0
+```
+
+### Então a ordem dos campos em Capital ainda será nome, lon, lat, país. No entanto, o valor padrão de lat será 40,0.
+
+```Python Console
+>>> Capital('Madrid', country='Spain')
+Capital(name='Madrid', lon=0.0, lat=40.0, country='Spain')
+```
