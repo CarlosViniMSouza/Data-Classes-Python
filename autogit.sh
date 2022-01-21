@@ -1,4 +1,4 @@
 git add -A
-git commit -m "Advanced Default Values / Part2 -> add | main.py -> alts add"
+git commit -m "Next Topic: Immutable Data Classes"
 git push
 git status
