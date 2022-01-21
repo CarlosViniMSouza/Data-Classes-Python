@@ -472,3 +472,51 @@ ImmutableDeck(cards=[ImmutableCard(rank='7', suit='♢'), ImmutableCard(rank='A'
 ```
 
 ### Para evitar isso, certifique-se de que todos os campos de uma classe de dados imutáveis usem tipos imutáveis (mas lembre-se de que os tipos não são impostos em tempo de execução). O `ImmutableDeck` deve ser implementado usando uma tupla em vez de uma lista.
+
+## Herança
+
+### Você pode subclassificar classes de dados livremente. Como exemplo, estenderemos nosso exemplo de Posição com um campo de país e o usaremos para registrar capitais:
+
+```python
+from dataclasses import dataclass
+
+@dataclass
+class Position:
+    name: str
+    lon: float
+    lat: float
+
+@dataclass
+class Capital(Position):
+    country: str
+```
+
+### Neste exemplo simples, tudo funciona sem problemas:
+
+```Python Console
+>>> Capital('Oslo', 10.8, 59.9, 'Norway')
+Capital(name='Oslo', lon=10.8, lat=59.9, country='Norway')
+```
+
+### O campo de `country` de `Capital` é adicionado após os três campos originais em `Position`. As coisas ficam um pouco mais complicadas se algum campo na classe base tiver valores padrão:
+
+```python
+from dataclasses import dataclass
+
+@dataclass
+class Position:
+    name: str
+    lon: float = 0.0
+    lat: float = 0.0
+
+@dataclass
+class Capital(Position):
+    country: str  # Does NOT work
+```
+
+### Este código irá travar imediatamente com um `TypeError` reclamando que "o argumento não padrão 'país' segue o argumento padrão". O problema é que nosso novo campo `country` não possui valor padrão, enquanto os campos lon e lat possuem valores padrão. A classe de dados tentará escrever um método `.__init__()` com a seguinte assinatura:
+
+```python
+def __init__(name: str, lon: float = 0.0, lat: float = 0.0, country: str):
+    ...
+```
