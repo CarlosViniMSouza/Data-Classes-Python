@@ -315,9 +315,39 @@ class Position:
 
 ### Funciona como você esperaria:
 
-```Python
+```Python Console
 >>> oslo = Position('Oslo', 10.8, 59.9)
 >>> vancouver = Position('Vancouver', -123.1, 49.3)
 >>> oslo.distance_to(vancouver)
 7181.784122942117
+```
+
+## Classes de dados mais flexíveis
+
+### Até agora, você viu alguns dos recursos básicos da classe de dados: ela oferece alguns métodos de conveniência e você ainda pode adicionar valores padrão e outros métodos. Agora você aprenderá sobre alguns recursos mais avançados, como parâmetros para o decorador `@dataclass` e a função `field()`. Juntos, eles lhe dão mais controle ao criar uma classe de dados.
+
+### Vamos voltar ao exemplo do baralho que você viu no início do tutorial e adicionar uma classe contendo um baralho de cartas enquanto estamos nisso:
+
+```Python
+from dataclasses import dataclass
+from typing import List
+
+@dataclass
+class PlayingCard:
+    rank: str
+    suit: str
+
+@dataclass
+class Deck:
+    cards: List[PlayingCard]
+```
+
+### Um baralho simples contendo apenas duas cartas pode ser criado assim:
+
+```Python Console
+>>> queen_of_hearts = PlayingCard('Q', 'Hearts')
+>>> ace_of_spades = PlayingCard('A', 'Spades')
+>>> two_cards = Deck([queen_of_hearts, ace_of_spades])
+Deck(cards=[PlayingCard(rank='Q', suit='Hearts'),
+            PlayingCard(rank='A', suit='Spades')])
 ```
