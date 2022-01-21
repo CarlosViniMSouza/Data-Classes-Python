@@ -546,3 +546,48 @@ class Capital(Position):
 >>> Capital('Madrid', country='Spain')
 Capital(name='Madrid', lon=0.0, lat=40.0, country='Spain')
 ```
+
+## Otimizando classes de dados
+
+### Vou terminar este tutorial com algumas palavras sobre [slots](https://docs.python.org/reference/datamodel.html#slots). Os slots podem ser usados para tornar as aulas mais rápidas e usar menos memória. As classes de dados não têm sintaxe explícita para trabalhar com slots, mas a maneira normal de criar slots também funciona para classes de dados. (Eles realmente são apenas aulas regulares!)
+
+```python
+from dataclasses import dataclass
+
+@dataclass
+class SimplePosition:
+    name: str
+    lon: float
+    lat: float
+
+@dataclass
+class SlotPosition:
+    __slots__ = ['name', 'lon', 'lat']
+    name: str
+    lon: float
+    lat: float
+```
+
+### Essencialmente, os slots são definidos usando `.__slots__` para listar as variáveis em uma classe. Variáveis ou atributos não presentes em `.__slots__` não podem ser definidos. Além disso, uma classe de slots pode não ter valores padrão.
+
+### O benefício de adicionar tais restrições é que certas otimizações podem ser feitas. Por exemplo, classes de slots ocupam menos memória, como pode ser medido usando [Pympler](https://pythonhosted.org/Pympler/):
+
+```Python Console
+>>> from pympler import asizeof
+>>> simple = SimplePosition('London', -0.1, 51.5)
+>>> slot = SlotPosition('Madrid', -3.7, 40.4)
+>>> asizeof.asizesof(simple, slot)
+(440, 248)
+```
+
+### Da mesma forma, as classes de slots geralmente são mais rápidas para trabalhar. O exemplo a seguir mede a velocidade de acesso ao atributo em uma classe de dados de slots e uma classe de dados regular usando [timeit](https://docs.python.org/library/timeit.html) da biblioteca padrão.
+
+```Python Console
+>>> from timeit import timeit
+>>> timeit('slot.name', setup="slot=SlotPosition('Oslo', 10.8, 59.9)", globals=globals())
+0.05882283499886398
+>>> timeit('simple.name', setup="simple=SimplePosition('Oslo', 10.8, 59.9)", globals=globals())
+0.09207444800267695
+```
+
+### Neste exemplo em particular, a classe de slot é cerca de 35% mais rápida.
