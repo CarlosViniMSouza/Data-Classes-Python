@@ -591,3 +591,22 @@ class SlotPosition:
 ```
 
 ### Neste exemplo em particular, a classe de slot é cerca de 35% mais rápida.
+
+## Conclusão e leitura adicional
+
+### As classes de dados são um dos novos recursos do Python 3.7. Com classes de dados, você não precisa escrever código clichê para obter inicialização, representação e comparações adequadas para seus objetos.
+
+### Você viu como definir suas próprias classes de dados, bem como:
+
+```
+° Como adicionar valores padrão aos campos em sua classe de dados
+° Como personalizar a ordenação de objetos de classe de dados
+° Como trabalhar com classes de dados imutáveis
+° Como a herança funciona para classes de dados
+```
+
+### Se você quiser se aprofundar em todos os detalhes das classes de dados, dê uma olhada no [PEP 557](https://www.python.org/dev/peps/pep-0557/), bem como nas discussões no repositório [GitHub original](https://github.com/ericvsmith/dataclasses/issues?utf8=%E2%9C%93&q=).
+
+### Além disso, vale a pena assistir à palestra de Raymond Hettinger em PyCon 2018 [Dataclasses: The code generator to end all code generators](https://www.youtube.com/watch?v=T-TwcmT6Rcw) vale muito a pena assistir.
+
+### Se você ainda não tem o Python 3.7, há também um [backport de classes de dados para Python 3.6](https://github.com/ericvsmith/dataclasses). E agora, vá em frente e escreva menos código!
